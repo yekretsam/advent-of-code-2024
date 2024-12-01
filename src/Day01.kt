@@ -1,21 +1,47 @@
+import kotlin.math.absoluteValue
+
 fun main() {
-    fun part1(input: List<String>): Int {
-        return input.size
+    fun readInputLists(filename: String): Pair<MutableList<Int>, MutableList<Int>> {
+        val left = mutableListOf<Int>()
+        val right = mutableListOf<Int>()
+        readInput(filename).map {
+            it.split("   ").forEachIndexed { index, s ->
+                if (index == 0)
+                    left.add(s.toInt())
+                else
+                    right.add(s.toInt())
+            }
+        }
+
+        return Pair(left, right)
     }
 
-    fun part2(input: List<String>): Int {
-        return input.size
+    fun part1(inputs: Pair<MutableList<Int>, MutableList<Int>>): Int {
+        val (left, right) = inputs
+
+        left.sort()
+        right.sort()
+
+        val distances = left.zip(right).map { (it.first - it.second).absoluteValue }
+
+        return distances.sum()
     }
 
-    // Test if implementation meets criteria from the description, like:
-    check(part1(listOf("test_input")) == 1)
+    fun part2(inputs: Pair<MutableList<Int>, MutableList<Int>>): Int {
+        val (left, right) = inputs
 
-    // Or read a large test input from the `src/Day01_test.txt` file:
-    val testInput = readInput("Day01_test")
-    check(part1(testInput) == 1)
+        val occurrences = right.groupingBy { it }.eachCount()
 
-    // Read the input from the `src/Day01.txt` file.
-    val input = readInput("Day01")
-    part1(input).println()
-    part2(input).println()
+        return left.sumOf {
+            it * (occurrences[it] ?: 0)
+        }
+    }
+
+    var inputs = readInputLists("Day01_test")
+    check(part1(inputs) == 11)
+    check(part2(inputs) == 31)
+
+    inputs = readInputLists("Day01")
+    part1(inputs).println()
+    part2(inputs).println()
 }
