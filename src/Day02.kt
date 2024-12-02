@@ -6,16 +6,16 @@ fun main() {
     fun List<Int>.removeAt(index: Int) = toMutableList().apply { removeAt(index) }.toList()
 
     fun checkReport(report: List<Int>, dampener: Boolean = false): Boolean {
-        var increasing: Boolean? = null
+        var increasing = false
         val zippedList = report.zipWithNext()
 
         zippedList.forEachIndexed { index, pair ->
             try {
                 val diff = pair.first - pair.second
 
-                if (increasing == null) {
+                if (index == 0) {
                     increasing = diff > 0
-                } else if (increasing!! && diff < 0 || !increasing!! && diff > 0) {
+                } else if (increasing && diff < 0 || !increasing && diff > 0) {
                     throw IllegalArgumentException("Not only increasing or decreasing")
                 }
 
