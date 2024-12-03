@@ -40,7 +40,7 @@ fun main() {
             if(checkReport(line.toIntReport())) 1 else 0
         }.sum()
 
-    fun part2(input: List<String>)= input.map { line ->
+    fun part2(input: List<String>) = input.map { line ->
             if(checkReport(line.toIntReport(), true)) 1 else 0
         }.sum()
 
