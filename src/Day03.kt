@@ -4,8 +4,7 @@ fun main() {
         return inputs.sumOf { line ->
             "(mul\\(\\d{1,3},\\d{1,3}\\))|(don't)|(do)".toRegex().findAll(line).map(MatchResult::value).map { match ->
                 if (doIt && match.startsWith("mul")) {
-                    match
-                        .removeSurrounding("mul(", ")")
+                    match.removeSurrounding("mul(", ")")
                         .split(",")
                         .map(String::toInt)
                         .reduce(Int::times)
